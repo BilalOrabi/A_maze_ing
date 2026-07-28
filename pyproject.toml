@@ -4,7 +4,7 @@ build-backend = "poetry.core.masonry.api"
 
 [project]
 name = "mazegen"
-version = "0.1.0"
+version = "1.0.0"
 description = "A-Maze-ing maze generator and pathfinder project for 42 school"
 authors = [
     {name = "borabi", email = "bilal.orabi@learner.42.tech"},
