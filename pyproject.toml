@@ -24,6 +24,11 @@ dev = [
     "mypy (>=2.3.0,<3.0.0)"
 ]
 
+
+# Automatically creates .venv inside the project directory during 'poetry install'
+[tool.poetry.virtualenvs]
+in-project = true
+
 # Strict static type checking settings for 42 evaluation
 [tool.mypy]
 python_version = "3.10"
