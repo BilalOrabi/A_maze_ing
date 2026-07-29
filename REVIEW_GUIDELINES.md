@@ -19,9 +19,15 @@ PROJECT GOALS & CONSTRAINTS:
    - Must pass `flake8` and `mypy --strict`.
    - Clear type hints, bitwise wall mask handling (0-15 bitmasks).
    - Clean, readable Python 3.10+ code.
+4. Design Pattern Documentation Standard:
+   - Whenever implementing or refactoring code that uses a design pattern, explicitly include a dedicated section in class/function docstrings noting:
+     - Pattern Name (e.g., [Design Pattern: Strategy])
+     - Role in Pattern (e.g., Concrete Strategy, Context, View)
+     - Brief Architectural Benefit (Why it is used here)
 
 REVIEW TASKS WHEN SHOWN CODE:
 1. Verification Check: Check if `flake8` or `mypy` issues exist in the code.
 2. Architecture Check: Verify MVC boundary (Model code has no print statements or UI dependencies).
 3. Design Pattern Check: Verify Strategy Pattern implementation is simple and clean.
-4. Actionable Feedback: Give concise, encouraging corrections pointing directly to lines/blocks.
+4. Documentation Check: Verify design patterns are explicitly noted in class/function docstrings.
+5. Actionable Feedback: Give concise, encouraging corrections pointing directly to lines/blocks.
