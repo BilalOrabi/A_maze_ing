@@ -36,3 +36,11 @@ env/
 .DS_Store
 .vscode/
 .idea/
+
+# Coverage cache
+.coverage
+htmlcov/
+
+# Python byte-code / cache
+__pycache__/
+*.pyc
