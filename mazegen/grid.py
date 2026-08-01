@@ -25,6 +25,8 @@ class Grid:
         :param width: Number of columns in the grid.
         :param height: Number of rows in the grid.
         """
+        if width <= 0 or height <= 0:
+            raise ValueError("Grid dimensions must be positive integers.")
         self.width: int = width
         self.height: int = height
         self.matrix: list[list[Cell]] = [
