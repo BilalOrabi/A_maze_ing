@@ -41,3 +41,7 @@ check_untyped_defs = true
 [tool.flake8]
 # extend-ignore = "E203"
 exclude = [".venv", "__pycache__", "build", "dist"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
