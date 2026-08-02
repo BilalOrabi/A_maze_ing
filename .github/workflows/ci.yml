@@ -1,0 +1,53 @@
+name: Python CI Pipeline
+
+# Trigger the pipeline on every push or pull request to main/master
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  lint-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Checkout your repository code onto the runner
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      # 2. Set up Python 3.10
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      # 3. Install Poetry
+      - name: Install Poetry
+        uses: snok/install-poetry@v1
+        with:
+          virtualenvs-create: true
+          virtualenvs-in-project: true
+
+      # 4. Cache dependencies so pipeline runs fast
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: .venv
+          key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
+
+      # 5. Install project dependencies
+      - name: Install dependencies
+        run: poetry install --no-interaction
+
+      # 6. Run Linter (flake8)
+      - name: Run Flake8
+        run: poetry run flake8 mazegen app tests
+
+      # 7. Run Type Checker (mypy)
+      - name: Run Mypy
+        run: poetry run mypy mazegen
+
+      # 8. Run Unit Tests (pytest)
+      - name: Run Pytest
+        run: poetry run pytest
