@@ -1,0 +1,1 @@
+![CI Status](https://github.com/BilalOrabi/A_maze_ing/actions/workflows/ci.yml/badge.svg)
