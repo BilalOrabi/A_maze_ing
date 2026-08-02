@@ -22,7 +22,8 @@ packages = [{ include = "mazegen" }]
 dev = [
     "flake8 (>=7.3.0,<8.0.0)",
     "mypy (>=2.3.0,<3.0.0)",
-    "pytest (>=9.1.1,<10.0.0)"
+    "pytest (>=9.1.1,<10.0.0)",
+    "pytest-cov (>=7.1.0,<8.0.0)"
 ]
 
 # Strict static type checking settings for 42 evaluation
@@ -32,8 +33,11 @@ strict = true
 warn_return_any = true
 warn_unused_configs = true
 disallow_untyped_defs = true
+warn_unused_ignores = true
+ignore_missing_imports = true
+check_untyped_defs = true
 
 # Flake8 configuration
 [tool.flake8]
-extend-ignore = "E203"
+# extend-ignore = "E203"
 exclude = [".venv", "__pycache__", "build", "dist"]
