@@ -6,8 +6,8 @@ Encapsulates maze generation algorithms using the Strategy Pattern.
 
 from abc import ABC, abstractmethod
 import random
-from mazegen.grid import Grid
-from mazegen.cell import Cell
+from mazegen import Grid
+from mazegen import Cell
 
 
 class BaseGenerator(ABC):
