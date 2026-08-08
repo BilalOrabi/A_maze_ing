@@ -8,11 +8,8 @@ A-Maze-ing Main Application Controller.
 """
 
 import sys
-from app import ConfigParser
-from app import TerminalRenderer
-from app import MazeWriter
-from mazegen import Grid
-from mazegen import MazeGenerator
+from app import ConfigParser, TerminalRenderer, MazeWriter
+from mazegen import Grid, MazeGenerator, BFSSolver
 
 
 def main() -> None:
@@ -35,12 +32,14 @@ def main() -> None:
     generator = MazeGenerator()
     generator.generate(grid, start_row=entry[0], start_col=entry[1])
 
+    solver = BFSSolver()
+    path = solver.solve(grid, entry, exit_pos)
+
     # 5. Export output file with full parameters
     output_path = str(config.get("OUTPUT_FILE", "output_maze.txt"))
-    path_str = ""  # Placeholder string until Milestone 4 pathfinding engine
+    path_str = BFSSolver.path_to_directions(path)
     MazeWriter.write(grid, output_path, entry, exit_pos, path_str)
 
-    # 6. Render view
     renderer = TerminalRenderer()
     renderer.render(grid)
 
