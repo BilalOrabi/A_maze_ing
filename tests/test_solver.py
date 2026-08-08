@@ -2,7 +2,7 @@
 Unit tests for BFSSolver pathfinding strategy.
 """
 
-from mazegen import Grid, Direction
+from mazegen import Cell, Grid, Direction
 from mazegen import BFSSolver
 
 
@@ -54,4 +54,25 @@ def test_bfs_solver_no_path() -> None:
 
     path = solver.solve(grid, (0, 0), (1, 1))
 
+    assert path == []
+
+
+def test_path_to_directions_conversion() -> None:
+    """
+    Test converting an ordered cell path to
+    N, E, S, W cardinal directions.
+    """
+    path = [Cell(0, 0), Cell(1, 0), Cell(1, 1), Cell(0, 1)]
+    directions_str = BFSSolver.path_to_directions(path)
+    assert directions_str == "SEN"
+
+
+def test_bfs_solver_start_cell_none() -> None:
+    """
+    Test solver behavior when
+    start position is technically out of bounds.
+    """
+    grid = Grid(2, 2)
+    solver = BFSSolver()
+    path = solver.solve(grid, (-1, 0), (1, 1))
     assert path == []

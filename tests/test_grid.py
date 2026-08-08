@@ -86,3 +86,9 @@ def test_grid_get_unvisited_neighbors() -> None:
     # Mark c2 visited
     c2.visited = True
     assert len(grid.get_unvisited_neighbors(c1)) == 0
+
+
+def test_get_reachable_neighbors_invalid_cell() -> None:
+    """Test reachable neighbors on out-of-bounds coordinate returns empty list."""
+    grid = Grid(2, 2)
+    assert grid.get_reachable_neighbors(-1, -1) == []
