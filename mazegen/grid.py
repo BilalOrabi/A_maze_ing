@@ -5,7 +5,7 @@ Manages the 2D spatial arrangement of cells and coordinate relationships.
 """
 
 from typing import Optional
-from mazegen.cell import Cell, Direction
+from mazegen import Cell, Direction
 
 
 class Grid:
