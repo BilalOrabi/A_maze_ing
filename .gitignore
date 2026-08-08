@@ -45,4 +45,4 @@ htmlcov/
 __pycache__/
 *.pyc
 # output file from the writer
-output.txt
+output_maze.txt

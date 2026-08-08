@@ -36,7 +36,7 @@ def main() -> None:
     generator.generate(grid, start_row=entry[0], start_col=entry[1])
 
     # 5. Export output file with full parameters
-    output_path = str(config.get("OUTPUT_FILE", "output.txt"))
+    output_path = str(config.get("OUTPUT_FILE", "output_maze.txt"))
     path_str = ""  # Placeholder string until Milestone 4 pathfinding engine
     MazeWriter.write(grid, output_path, entry, exit_pos, path_str)
 
