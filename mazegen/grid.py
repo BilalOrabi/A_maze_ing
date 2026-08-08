@@ -116,3 +116,37 @@ class Grid:
                 unvisited_neighbors.append((neighbor_cell, wall_direction))
 
         return unvisited_neighbors
+
+    def get_reachable_neighbors(
+        self, row: int, col: int
+    ) -> list[tuple[int, int]]:
+        """
+        Get valid neighbor coordinates connected
+        through open passages (no wall).
+
+        :param row: Current row index.
+        :param col: Current column index.
+        :return: List of (row, col) tuples for reachable adjacent cells.
+        """
+        reachable_neighbors: list[tuple[int, int]] = []
+        current_cell = self.get_cell(row, col)
+        if not current_cell:
+            return reachable_neighbors
+
+        # Map directions to their coordinate offsets and wall flags
+        direction_checks = [
+            (-1, 0, Direction.NORTH),
+            (0, 1, Direction.EAST),
+            (1, 0, Direction.SOUTH),
+            (0, -1, Direction.WEST),
+        ]
+
+        for row_offset, column_offset, wall_direction in direction_checks:
+            neighbor_row = row + row_offset
+            neighbor_col = col + column_offset
+
+            if self.in_bounds(neighbor_row, neighbor_col):
+                if not current_cell.has_wall(wall_direction):
+                    reachable_neighbors.append((neighbor_row, neighbor_col))
+
+        return reachable_neighbors
