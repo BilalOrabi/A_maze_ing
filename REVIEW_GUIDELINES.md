@@ -13,12 +13,12 @@
   - Create abstract `GeneratorStrategy` base class.
   - Implement `DFSGenerator` strategy (Recursive Backtracker) operating on `Grid`.
 
-- [ ] **Milestone 3: Terminal Renderer & CLI (MVC - View & Controller)**
+- [x] **Milestone 3: Terminal Renderer & CLI (MVC - View & Controller)**
   - Parse key-value `config.txt` input (`WIDTH`, `HEIGHT`, `ENTRY`, `EXIT`, `OUTPUT_FILE`, `PERFECT`).
   - Implement Interactive Terminal ASCII / MLX Renderer with live menu (Re-generate, Show/Hide path, Rotate colors).
   - Write output file formatted with hexadecimal row bitmasks + path string (`N`, `E`, `S`, `W`).
 
-- [ ] **Milestone 4: Pathfinding & Solver Engine (`mazegen/solver.py`)**
+- [x] **Milestone 4: Pathfinding & Solver Engine (`mazegen/solver.py`)**
   - Create abstract `BaseSolver` base class.
   - Implement `BFSSolver` strategy to calculate the shortest path.
   - Generate cardinal path string (`N`, `E`, `S`, `W`) for PDF output file compliance.

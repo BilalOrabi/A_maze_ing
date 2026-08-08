@@ -41,7 +41,13 @@ def main() -> None:
     MazeWriter.write(grid, output_path, entry, exit_pos, path_str)
 
     renderer = TerminalRenderer()
-    renderer.render(grid)
+    renderer.render(
+        grid,
+        use_color=True,
+        entry=entry,
+        exit_pos=exit_pos,
+        path=path,
+    )
 
 
 if __name__ == "__main__":
