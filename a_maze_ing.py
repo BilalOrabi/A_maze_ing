@@ -17,7 +17,12 @@ def main() -> None:
     config_file = sys.argv[1] if len(sys.argv) > 1 else "config.txt"
 
     # 1. Parse configuration
-    config = ConfigParser.parse(config_file)
+# 1. Parse configuration
+    try:
+        config = ConfigParser.parse(config_file)
+    except (FileNotFoundError, PermissionError, ValueError) as exc:
+        print(f"Configuration error: {exc}")
+        return
 
     # 2. Instantiate core domain model
     width: int = config["WIDTH"]
