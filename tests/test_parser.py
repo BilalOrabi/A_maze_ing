@@ -1,9 +1,14 @@
+"""Tests for the configuration parser."""
+
+from pathlib import Path
+from typing import Any, Dict
+
 import pytest
 
 from app.parser import ConfigParser
 
 
-def test_parse_valid_config(tmp_path):
+def test_parse_valid_config(tmp_path: Path) -> None:
     """Test parsing a valid configuration file."""
     config_file = tmp_path / "config.txt"
 
@@ -21,7 +26,7 @@ def test_parse_valid_config(tmp_path):
         encoding="utf-8",
     )
 
-    config = ConfigParser.parse(str(config_file))
+    config: Dict[str, Any] = ConfigParser.parse(str(config_file))
 
     assert config["WIDTH"] == 20
     assert config["HEIGHT"] == 15
@@ -31,7 +36,7 @@ def test_parse_valid_config(tmp_path):
     assert config["PERFECT"] is True
 
 
-def test_ignore_comments_and_blank_lines(tmp_path):
+def test_ignore_comments_and_blank_lines(tmp_path: Path) -> None:
     """Comments and blank lines should be ignored."""
     config_file = tmp_path / "config.txt"
 
@@ -51,13 +56,13 @@ PERFECT=False
         encoding="utf-8",
     )
 
-    config = ConfigParser.parse(str(config_file))
+    config: Dict[str, Any] = ConfigParser.parse(str(config_file))
 
     assert config["WIDTH"] == 5
     assert config["PERFECT"] is False
 
 
-def test_invalid_line_raises_error(tmp_path):
+def test_invalid_line_raises_error(tmp_path: Path) -> None:
     """Invalid configuration line should raise ValueError."""
     config_file = tmp_path / "config.txt"
 
@@ -78,7 +83,7 @@ PERFECT=True
         ConfigParser.parse(str(config_file))
 
 
-def test_missing_required_key(tmp_path):
+def test_missing_required_key(tmp_path: Path) -> None:
     """Missing required keys should raise ValueError."""
     config_file = tmp_path / "config.txt"
 
@@ -97,7 +102,7 @@ PERFECT=True
         ConfigParser.parse(str(config_file))
 
 
-def test_file_not_found():
+def test_file_not_found() -> None:
     """Reading a non-existing file should raise FileNotFoundError."""
     with pytest.raises(FileNotFoundError):
         ConfigParser.parse("does_not_exist.txt")

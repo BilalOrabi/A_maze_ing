@@ -12,12 +12,12 @@ from mazegen import Direction
 
 class TerminalRenderer:
     """
-    Renders Grid domain models to the rerminal stdout.
+    Renders Grid domain models to the terminal stdout.
 
     [Design Pattern: View Component in MVC]
     - Role: Concrete View / Terminal Renderer
-    - Purpose: Formate cell wall bitmask states into visual terminal ASCII box
-      graphics ,remaining isolated from generation and grid logic
+    - Purpose: Format cell wall bitmask states into visual terminal ASCII box
+      graphics, remaining isolated from generation and grid logic
     """
 
     def render(self, grid: Grid) -> None:

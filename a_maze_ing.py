@@ -8,11 +8,11 @@ A-Maze-ing Main Application Controller.
 """
 
 import sys
-from app.parser import ConfigParser
-from app.renderer import TerminalRenderer
-from app.writer import MazeWriter
-from mazegen.grid import Grid
-from mazegen.generator import MazeGenerator
+from app import ConfigParser
+from app import TerminalRenderer
+from app import MazeWriter
+from mazegen import Grid
+from mazegen import MazeGenerator
 
 
 def main() -> None:

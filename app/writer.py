@@ -2,7 +2,7 @@
 Maze output Writer Module.
 
 Exports grid wall states into hexadecimal
-representations and path solustion strings.
+representations and path solution strings.
 """
 
 from mazegen import Grid
@@ -10,12 +10,12 @@ from mazegen import Grid
 
 class MazeWriter:
     """
-    serialixes grid cell bitmasks to file format.
+    serializes grid cell bitmasks to file format.
 
     [Design Pattern: Output Serializer / Controller Helper]
     - Role: File Serializer
     - Purpose: Converts bitwise integer wall representations into standardized
-      hexadecimal character outputs required for ecaluation deliverables.
+      hexadecimal character outputs required for evaluation deliverables.
     """
 
     @staticmethod

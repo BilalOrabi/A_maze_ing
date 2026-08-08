@@ -28,10 +28,10 @@ jobs:
         run: poetry install --no-interaction
 
       - name: Run Flake8
-        run: poetry run flake8 mazegen
+        run: poetry run flake8 mazegen app
 
       - name: Run MyPy
-        run: poetry run mypy mazegen
+        run: poetry run mypy mazegen app
 
       - name: Run Pytest with Coverage
-        run: poetry run pytest --cov=mazegen --cov-report=term-missing --cov-fail-under=90 tests/
+        run: poetry run pytest --cov=mazegen --cov=app --cov-report=term-missing --cov-fail-under=90 tests/
