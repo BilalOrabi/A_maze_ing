@@ -5,7 +5,7 @@ from typing import Any, Dict
 
 import pytest
 
-from app.parser import ConfigParser
+from app import ConfigParser
 
 
 def test_parse_valid_config(tmp_path: Path) -> None:
@@ -34,6 +34,26 @@ def test_parse_valid_config(tmp_path: Path) -> None:
     assert config["EXIT"] == (19, 14)
     assert config["OUTPUT_FILE"] == "maze.txt"
     assert config["PERFECT"] is True
+
+
+def test_invalid_coordinates_raises_error(tmp_path: Path) -> None:
+    """Invalid coordinate format should raise ValueError."""
+    config_file = tmp_path / "config.txt"
+
+    config_file.write_text(
+        """
+WIDTH=20
+HEIGHT=20
+ENTRY=0,0,5
+EXIT=19,19
+OUTPUT_FILE=test.txt
+PERFECT=True
+""",
+        encoding="utf-8",
+    )
+
+    with pytest.raises(ValueError):
+        ConfigParser.parse(str(config_file))
 
 
 def test_ignore_comments_and_blank_lines(tmp_path: Path) -> None:

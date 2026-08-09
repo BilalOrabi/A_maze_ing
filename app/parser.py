@@ -35,7 +35,7 @@ class ConfigParser:
                     raise ValueError(f"Invalid configuration line: {line}")
 
                 key, value = line.split("=", 1)
-                key = key.strip()
+                key = key.strip().upper()
                 value = value.strip()
 
                 if key in ("WIDTH", "HEIGHT"):
@@ -52,7 +52,6 @@ class ConfigParser:
                 else:
                     config[key] = value
 
-        # File is safely closed before checking required keys
         required_keys = {
             "WIDTH",
             "HEIGHT",
