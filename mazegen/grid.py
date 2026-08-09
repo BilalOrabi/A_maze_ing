@@ -106,13 +106,12 @@ class Grid:
     ) -> list[tuple[Cell, Direction]]:
         """
         Returns a list of tuples (neighbor_cell, Direction) for all unvisited
-        neighbors adjacent to the given cell.
+        and non-reserved neighbors adjacent to the given cell.
         """
         unvisited_neighbors: list[tuple[Cell, Direction]] = []
 
-        # Re-use get_neighbors to avoid duplicating offset logic!
         for neighbor_cell, wall_direction, _ in self.get_neighbors(cell):
-            if not neighbor_cell.visited:
+            if not neighbor_cell.visited and not neighbor_cell.is_reserved:
                 unvisited_neighbors.append((neighbor_cell, wall_direction))
 
         return unvisited_neighbors
