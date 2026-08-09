@@ -6,7 +6,7 @@
 PYTHON      := poetry run python
 PYTEST      := poetry run pytest
 MYPY        := poetry run mypy
-FLAKE8      := poetry run flake8
+FLAKE8      := poetry run flake8 --count
 MAIN_SCRIPT := a_maze_ing.py
 CONFIG_FILE := config.txt
 

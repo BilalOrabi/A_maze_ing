@@ -1,10 +1,10 @@
 """
 Terminal Renderer Module.
-
-Handles ASCII/Unicode grid visualization for the terminal interface with Classic Arcade Green styling.
+Handles ASCII/Unicode grid visualization for the terminal interface with
+Classic Arcade Green styling.
 """
 
-from mazegen import Grid, Direction
+from mazegen import Grid, Direction, Cell
 
 
 class TerminalRenderer:
@@ -32,13 +32,13 @@ class TerminalRenderer:
         use_color: bool = False,
         entry: tuple[int, int] | None = None,
         exit_pos: tuple[int, int] | None = None,
-        path: list | None = None,
+        path: list[Cell] | None = None,
     ) -> None:
         """
         Renders the entire grid to standard output using ASCII box drawing.
 
         :param grid: Grid model instance to draw.
-        :param use_color: Whether to apply ANSI escape codes for colored output.
+        :param use_color: Whether to apply ANSI escape codes for colored output
         :param entry: Optional (row, col) coordinates for entry point.
         :param exit_pos: Optional (row, col) coordinates for exit point.
         :param path: Optional list of Cell objects representing solution path.
@@ -55,7 +55,10 @@ class TerminalRenderer:
             path_coords = {(cell.row, cell.col) for cell in path}
 
         # Top border
-        top_line = f"{c_corner}+{c_reset}" + f"{c_wall}---{c_reset}{c_corner}+{c_reset}" * grid.width
+        top_line = (
+            f"{c_corner}+{c_reset}"
+            + f"{c_wall}---{c_reset}{c_corner}+{c_reset}" * grid.width
+        )
         print(top_line)
 
         for row in range(grid.height):
