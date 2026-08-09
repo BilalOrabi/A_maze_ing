@@ -14,7 +14,14 @@ from mazegen import Grid, MazeGenerator, BFSSolver
 
 def main() -> None:
     """Main application controller entry point."""
-    config_file = sys.argv[1] if len(sys.argv) > 1 else "config.txt"
+    if len(sys.argv) > 1 and sys.argv[1] == "config.txt":
+        config_file = sys.argv[1]
+    elif len(sys.argv) == 1:
+        print("you need to provide a configration file")
+        return
+    else:
+        print("you have to make the same name file 'config.txt'")
+        return
 
     # 1. Parse configuration
 # 1. Parse configuration
