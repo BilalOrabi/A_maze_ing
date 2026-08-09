@@ -17,15 +17,14 @@ class TerminalRenderer:
       graphics, remaining isolated from generation and grid logic
     """
 
-    # Palette 2: Classic Arcade Green ANSI Escape Codes
     RESET = "\033[0m"
     BOLD = "\033[1m"
 
-    CORNER_COLOR = "\033[92m"   # Standard Blue
-    WALL_COLOR = "\033[92m"   # Standard Cyan
-    ENTRY_COLOR = "\033[93m"   # Bright Green
-    EXIT_COLOR = "\033[91m"   # Bright Magenta
-    PATH_COLOR = "\033[97m"   # Bright White
+    CORNER_COLOR = "\033[92m"
+    WALL_COLOR = "\033[92m"
+    ENTRY_COLOR = "\033[93m"
+    EXIT_COLOR = "\033[91m"
+    PATH_COLOR = "\033[97m"
 
     def render(
         self,
@@ -76,7 +75,7 @@ class TerminalRenderer:
                 elif exit_pos and coord == exit_pos:
                     cell_content = f"{c_exit} X {c_reset}"
                 elif coord in path_coords:
-                    cell_content = f"{c_path} • {c_reset}"
+                    cell_content = f"{c_path} ★ {c_reset}"
                 else:
                     cell_content = "   "
 
