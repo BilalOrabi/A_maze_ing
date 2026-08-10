@@ -36,12 +36,6 @@ class TerminalRenderer:
     ) -> None:
         """
         Renders the entire grid to standard output using ASCII box drawing.
-
-        :param grid: Grid model instance to draw.
-        :param use_color: Whether to apply ANSI escape codes for colored output
-        :param entry: Optional (row, col) coordinates for entry point.
-        :param exit_pos: Optional (row, col) coordinates for exit point.
-        :param path: Optional list of Cell objects representing solution path.
         """
         c_reset = self.RESET if use_color else ""
         c_wall = self.WALL_COLOR if use_color else ""
@@ -54,16 +48,17 @@ class TerminalRenderer:
         if path:
             path_coords = {(cell.row, cell.col) for cell in path}
 
-        # Top border
-        top_line = (
-            f"{c_corner}+{c_reset}"
-            + f"{c_wall}---{c_reset}{c_corner}+{c_reset}" * grid.width
-        )
-        print(top_line)
+        output_buffer: list[str] = []
+
+        # Correct Top Border Construction
+        top_parts = [f"{c_corner}+{c_reset}"]
+        for _ in range(grid.width):
+            top_parts.append(f"{c_wall}---{c_reset}{c_corner}+{c_reset}")
+        output_buffer.append("".join(top_parts))
 
         for row in range(grid.height):
-            cell_line = f"{c_wall}|{c_reset}"
-            bottom_line = f"{c_corner}+{c_reset}"
+            cell_line_parts = [f"{c_wall}|{c_reset}"]
+            bottom_line_parts = [f"{c_corner}+{c_reset}"]
 
             for col in range(grid.width):
                 cell = grid.get_cell(row, col)
@@ -72,7 +67,7 @@ class TerminalRenderer:
 
                 coord = (row, col)
 
-                # Determine cell contents (Entry, Exit, Path, or Empty)
+                # Determine cell contents
                 if entry and coord == entry:
                     cell_content = f"{c_entry} E {c_reset}"
                 elif exit_pos and coord == exit_pos:
@@ -82,19 +77,22 @@ class TerminalRenderer:
                 else:
                     cell_content = "   "
 
-                cell_line += cell_content
+                cell_line_parts.append(cell_content)
 
                 # East wall check
                 if cell.has_wall(Direction.EAST):
-                    cell_line += f"{c_wall}|{c_reset}"
+                    cell_line_parts.append(f"{c_wall}|{c_reset}")
                 else:
-                    cell_line += " "
+                    cell_line_parts.append(" ")
 
                 # South wall check
                 if cell.has_wall(Direction.SOUTH):
-                    bottom_line += f"{c_wall}---{c_reset}{c_corner}+{c_reset}"
+                    bottom_line_parts.append(f"{c_wall}---{c_reset}{c_corner}+{c_reset}")
                 else:
-                    bottom_line += f"   {c_corner}+{c_reset}"
+                    bottom_line_parts.append(f"   {c_corner}+{c_reset}")
 
-            print(cell_line)
-            print(bottom_line)
+            output_buffer.append("".join(cell_line_parts))
+            output_buffer.append("".join(bottom_line_parts))
+
+        # Print whole grid in a single stream flush
+        print("\n".join(output_buffer))
