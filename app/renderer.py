@@ -87,7 +87,8 @@ class TerminalRenderer:
 
                 # South wall check
                 if cell.has_wall(Direction.SOUTH):
-                    bottom_line_parts.append(f"{c_wall}---{c_reset}{c_corner}+{c_reset}")
+                    bottom_line_parts.append(
+                        f"{c_wall}---{c_reset}{c_corner}+{c_reset}")
                 else:
                     bottom_line_parts.append(f"   {c_corner}+{c_reset}")
 
