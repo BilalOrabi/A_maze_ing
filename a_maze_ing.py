@@ -10,6 +10,7 @@ A-Maze-ing Main Application Controller.
 import sys
 from app import ConfigParser, TerminalRenderer, MazeWriter
 from mazegen import Grid, MazeGenerator, BFSSolver
+from mazegen import PatternMask
 
 
 def main() -> None:
@@ -39,6 +40,11 @@ def main() -> None:
     # 3. Extract coordinates
     entry: tuple[int, int] = config.get("ENTRY", (0, 0))
     exit_pos: tuple[int, int] = config.get("EXIT", (width - 1, height - 1))
+
+    # 4. Apply the mandatory 42 pattern mask
+    if not PatternMask.apply_42_mask(grid):
+        print("Error: maze is too small for the 42 pattern.")
+        return
 
     # 4. Generate maze using Strategy Pattern
     generator = MazeGenerator()
