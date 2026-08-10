@@ -1,4 +1,4 @@
-import pytest
+
 
 from mazegen import Grid
 from mazegen import PatternMask

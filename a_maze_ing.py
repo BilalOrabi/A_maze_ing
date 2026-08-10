@@ -45,7 +45,7 @@ def main() -> None:
     if not PatternMask.apply_42_mask(grid):
         print("Error: maze is too small for the 42 pattern.")
         return
-    
+
     # 4. Generate maze using Strategy Pattern
     generator = MazeGenerator()
     generator.generate(grid, start_row=entry[0], start_col=entry[1])
