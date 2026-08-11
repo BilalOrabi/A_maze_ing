@@ -45,9 +45,9 @@ clean:
 
 lint:
 	@echo "==> Running MyPy type checker..."
-	$(MYPY) mazegen app
+	$(MYPY) mazegen app $(MAIN_SCRIPT)
 	@echo "==> Running Flake8 linter..."
-	$(FLAKE8) mazegen app
+	$(FLAKE8) mazegen app $(MAIN_SCRIPT)
 
 build:
 	@echo "==> Building package with Poetry..."

@@ -5,7 +5,7 @@ Manages the 2D spatial arrangement of cells and coordinate relationships.
 """
 
 from typing import Optional
-from mazegen import Cell, Direction
+from mazegen.cell import Cell, Direction
 
 
 class Grid:
@@ -149,3 +149,21 @@ class Grid:
                     reachable_neighbors.append((neighbor_row, neighbor_col))
 
         return reachable_neighbors
+
+    def reset_cells(self) -> None:
+        """
+        Resets the structural states of all cells back to default.
+
+        Clears visited tracking flags and restores all four walls using bitwise
+        OR flags for every non-reserved cell to
+        prepare for a new generation cycle.
+        """
+        all_walls = (
+            Direction.NORTH | Direction.EAST | Direction.SOUTH | Direction.WEST
+        )
+
+        for row in self.matrix:
+            for cell in row:
+                cell.visited = False
+                if not cell.is_reserved:
+                    cell.walls = all_walls

@@ -8,24 +8,20 @@ A-Maze-ing Main Application Controller.
 """
 
 import sys
-from app import ConfigParser, TerminalRenderer, MazeWriter
+from app import ConfigParser, MazeWriter
+from app.menu import InteractiveMenu
 from mazegen import Grid, MazeGenerator, BFSSolver
-from mazegen import PatternMask
 
 
 def main() -> None:
     """Main application controller entry point."""
-    if len(sys.argv) > 1 and sys.argv[1] == "config.txt":
-        config_file = sys.argv[1]
-    elif len(sys.argv) == 1:
-        print("you need to provide a configration file")
-        return
-    else:
-        print("you have to make the same name file 'config.txt'")
+    if len(sys.argv) != 2:
+        print("Usage: python3 a_maze_ing.py <config_file>")
         return
 
+    config_file = sys.argv[1]
+
     # 1. Parse configuration
-# 1. Parse configuration
     try:
         config = ConfigParser.parse(config_file)
     except (FileNotFoundError, PermissionError, ValueError) as exc:
@@ -41,31 +37,39 @@ def main() -> None:
     entry: tuple[int, int] = config.get("ENTRY", (0, 0))
     exit_pos: tuple[int, int] = config.get("EXIT", (width - 1, height - 1))
 
-    # 4. Apply the mandatory 42 pattern mask
-    if not PatternMask.apply_42_mask(grid):
-        print("Error: maze is too small for the 42 pattern.")
+    # 4. Generate maze initial layout using Strategy Pattern
+    generator = MazeGenerator()
+    try:
+        # The generator applies the mask internally
+        generator.generate(
+            grid,
+            start_row=entry[0],
+            start_col=entry[1],
+            apply_42=True
+        )
+    except ValueError as exc:
+        print(f"Generation error: {exc}")
         return
 
-    # 4. Generate maze using Strategy Pattern
-    generator = MazeGenerator()
-    generator.generate(grid, start_row=entry[0], start_col=entry[1])
+    # 5. Check if the mask swallowed the exit post-mask allocation
+    exit_cell = grid.get_cell(exit_pos[0], exit_pos[1])
+    if exit_cell and exit_cell.is_reserved:
+        print(
+            "Error: The EXIT coordinate cannot be inside the '42' pattern "
+            "mask."
+        )
+        return
 
-    solver = BFSSolver()
-    path = solver.solve(grid, entry, exit_pos)
+    # 6. Hand off control to the Chapter 5 Interactive Menu
+    interactive_menu = InteractiveMenu(grid, entry, exit_pos)
+    interactive_menu.run()
 
-    # 5. Export output file with full parameters
+    # 7. Export final file state upon cleanly exiting the interactive menu
     output_path = str(config.get("OUTPUT_FILE", "output_maze.txt"))
-    path_str = BFSSolver.path_to_directions(path)
+    solver = BFSSolver()
+    final_path = solver.solve(grid, entry, exit_pos)
+    path_str = BFSSolver.path_to_directions(final_path)
     MazeWriter.write(grid, output_path, entry, exit_pos, path_str)
-
-    renderer = TerminalRenderer()
-    renderer.render(
-        grid,
-        use_color=True,
-        entry=entry,
-        exit_pos=exit_pos,
-        path=path,
-    )
 
 
 if __name__ == "__main__":
