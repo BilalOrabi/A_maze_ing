@@ -11,6 +11,7 @@ import sys
 from app import ConfigParser, MazeWriter
 from app.menu import InteractiveMenu
 from mazegen import Grid, MazeGenerator, BFSSolver
+from mazegen import PacmanModifier
 
 
 def main() -> None:
@@ -31,6 +32,7 @@ def main() -> None:
     # 2. Instantiate core domain model
     width: int = config["WIDTH"]
     height: int = config["HEIGHT"]
+    perfect: bool = config["PERFECT"]
     grid = Grid(width=width, height=height)
 
     # 3. Extract coordinates
@@ -59,6 +61,13 @@ def main() -> None:
             "mask."
         )
         return
+
+    # Apply Pac-Man modifications for non-perfect mazes
+    if not perfect:
+        PacmanModifier.open_corners(grid)
+        PacmanModifier.open_center(grid)
+        PacmanModifier.add_loops(grid)
+        PacmanModifier.reduce_dead_ends(grid)
 
     # 6. Hand off control to the Chapter 5 Interactive Menu
     interactive_menu = InteractiveMenu(grid, entry, exit_pos)
