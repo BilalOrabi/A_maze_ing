@@ -27,6 +27,8 @@ class BaseGenerator(ABC):
         grid: Grid,
         start_row: int = 0,
         start_col: int = 0,
+        exit_row: int = 0,
+        exit_col: int = 0,
     ) -> None:
         """
         Mutates the provided Grid instance in-place to construct a maze.
@@ -54,6 +56,8 @@ class MazeGenerator(BaseGenerator):
         grid: Grid,
         start_row: int = 0,
         start_col: int = 0,
+        exit_row: int = 0,
+        exit_col: int = 0,
         apply_42: bool = True,
     ) -> None:
         # 1. Handle mask logic if requested
@@ -62,11 +66,20 @@ class MazeGenerator(BaseGenerator):
 
         # 2. Grab and validate the initial starting cell
         start_cell: Optional[Cell] = grid.get_cell(start_row, start_col)
+        exit_cell: Optional[Cell] = grid.get_cell(exit_row, exit_col)
         if start_cell is None:
             raise ValueError(
                 f"Start cell ({start_row}, {start_col}) is out of grid bounds."
             )
-
+        if exit_cell is None:
+            raise ValueError(
+                f"exit cell ({exit_row}, {exit_col}) is out of grid bounds."
+            )
+        # 3. Handle if ENTRY == EXIT
+        if (start_row, start_col) == (exit_row, exit_col):
+            raise ValueError(
+                "ENTRY and EXIT must be different."
+            )
         # 3. Handle conflict if ENTRY lands on the solid "42" pattern
         if start_cell.is_reserved:
             raise ValueError(

@@ -47,6 +47,8 @@ def main() -> None:
             grid,
             start_row=entry[0],
             start_col=entry[1],
+            exit_row=exit_pos[0],
+            exit_col=exit_pos[1],
             apply_42=True
         )
     except ValueError as exc:
@@ -70,7 +72,12 @@ def main() -> None:
         PacmanModifier.reduce_dead_ends(grid)
 
     # 6. Hand off control to the Chapter 5 Interactive Menu
-    interactive_menu = InteractiveMenu(grid, entry, exit_pos)
+    interactive_menu = InteractiveMenu(
+        grid,
+        entry,
+        exit_pos,
+        perfect,
+        )
     interactive_menu.run()
 
     # 7. Export final file state upon cleanly exiting the interactive menu

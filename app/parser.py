@@ -39,7 +39,10 @@ class ConfigParser:
                 value = value.strip()
 
                 if key in ("WIDTH", "HEIGHT"):
-                    config[key] = int(value)
+                    if int(value) <= 0:
+                        raise ValueError(f"Invalid configuration line: {line}")
+                    else:
+                        config[key] = int(value)
                 elif key in ("ENTRY", "EXIT"):
                     coords = [int(x) for x in value.split(",")]
                     if len(coords) != 2:
@@ -48,7 +51,13 @@ class ConfigParser:
                         )
                     config[key] = (coords[0], coords[1])
                 elif key == "PERFECT":
-                    config[key] = value.lower() == "true"
+                    if value.lower() == "true":
+                        config[key] = True
+                    elif value.lower() == "false":
+                        config[key] = False
+                    else:
+                        raise ValueError(f"Invalid configuration line: {line}")
+
                 else:
                     config[key] = value
 
