@@ -218,9 +218,9 @@ class PacmanModifier:
                         (current, neighbor, direction)
                     )
 
-        loops_to_add = min(2, len(candidates))
+        loops_to_add = min(20, len(candidates))
         for current, neighbor, direction in candidates[
-            :loops_to_add
+            :loops_to_add:3
         ]:
             grid.remove_wall_between(
                 current,
@@ -268,7 +268,7 @@ class PacmanModifier:
                 ) == 1:
                     dead_ends.append(current)
 
-        modify_dead_ends = len(dead_ends) // 2
+        modify_dead_ends = len(dead_ends)
 
         for cell in dead_ends[:modify_dead_ends]:
             for neighbor, direction, _ in grid.get_neighbors(cell):
