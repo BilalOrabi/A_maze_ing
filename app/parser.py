@@ -57,7 +57,13 @@ class ConfigParser:
                         config[key] = False
                     else:
                         raise ValueError(f"Invalid configuration line: {line}")
-
+                elif key == "SEED":
+                    try:
+                        config[key] = int(value)
+                    except ValueError:
+                        raise ValueError(
+                            f"Invalid SEED value: {value}"
+                        )
                 else:
                     config[key] = value
 

@@ -7,6 +7,7 @@ Encapsulates maze generation algorithms using the Strategy Pattern.
 from abc import ABC, abstractmethod
 import random
 from typing import Optional
+
 from mazegen.grid import Grid
 from mazegen.cell import Cell
 from mazegen.mask import PatternMask
@@ -29,6 +30,7 @@ class BaseGenerator(ABC):
         start_col: int = 0,
         exit_row: int = 0,
         exit_col: int = 0,
+        seed: Optional[int] = None,
     ) -> None:
         """
         Mutates the provided Grid instance in-place to construct a maze.
@@ -38,6 +40,9 @@ class BaseGenerator(ABC):
             algorithm.
         :param start_col: Starting column coordinate for the generator
             algorithm.
+        :param exit_row: Exit row coordinate.
+        :param exit_col: Exit column coordinate.
+        :param seed: Optional random seed for reproducible generation.
         """
         ...
 
@@ -58,8 +63,13 @@ class MazeGenerator(BaseGenerator):
         start_col: int = 0,
         exit_row: int = 0,
         exit_col: int = 0,
+        seed: Optional[int] = None,
         apply_42: bool = True,
     ) -> None:
+        # Create a local random generator.
+        # Using a local RNG keeps the global random state untouched.
+        rng = random.Random(seed)
+
         # 1. Handle mask logic if requested
         if apply_42 and not PatternMask.apply_42_mask(grid):
             print("Error: maze is too small for the 42 pattern.")
@@ -67,38 +77,45 @@ class MazeGenerator(BaseGenerator):
         # 2. Grab and validate the initial starting cell
         start_cell: Optional[Cell] = grid.get_cell(start_row, start_col)
         exit_cell: Optional[Cell] = grid.get_cell(exit_row, exit_col)
+
         if start_cell is None:
             raise ValueError(
                 f"Start cell ({start_row}, {start_col}) is out of grid bounds."
             )
+
         if exit_cell is None:
             raise ValueError(
                 f"exit cell ({exit_row}, {exit_col}) is out of grid bounds."
             )
+
         # 3. Handle if ENTRY == EXIT
         if (start_row, start_col) == (exit_row, exit_col):
             raise ValueError(
                 "ENTRY and EXIT must be different."
             )
-        # 3. Handle conflict if ENTRY lands on the solid "42" pattern
+
+        # 4. Handle conflict if ENTRY lands on the solid "42" pattern
         if start_cell.is_reserved:
             raise ValueError(
                 "Configuration Error: ENTRY coordinate cannot be inside "
                 "the '42' pattern mask."
             )
 
-        # 4. Initialize generation stack
+        # 5. Initialize generation stack
         start_cell.visited = True
         stack: list[Cell] = [start_cell]
 
-        # 5. Iterative Backtracking Loop
+        # 6. Iterative Backtracking Loop
         while stack:
-            current_cell = stack[-1]  # Peek at top of stack
+            current_cell = stack[-1]
             unvisited_neighbors = grid.get_unvisited_neighbors(current_cell)
 
             if unvisited_neighbors:
                 # Select a random unvisited neighbor
-                chosen_neighbor, direction = random.choice(unvisited_neighbors)
+                # using the local seeded random generator.
+                chosen_neighbor, direction = rng.choice(
+                    unvisited_neighbors
+                )
 
                 # Carve wall between current and neighbor
                 grid.remove_wall_between(
@@ -110,6 +127,7 @@ class MazeGenerator(BaseGenerator):
                 # Mark as visited and push to stack
                 chosen_neighbor.visited = True
                 stack.append(chosen_neighbor)
+
             else:
                 # Dead end reached -> Backtrack
                 stack.pop()

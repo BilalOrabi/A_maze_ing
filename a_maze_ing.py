@@ -34,6 +34,7 @@ def main() -> None:
     height: int = config["HEIGHT"]
     perfect: bool = config["PERFECT"]
     grid = Grid(width=width, height=height)
+    seed: int | None = config.get("SEED")
 
     # 3. Extract coordinates
     entry: tuple[int, int] = config.get("ENTRY", (0, 0))
@@ -49,7 +50,8 @@ def main() -> None:
             start_col=entry[1],
             exit_row=exit_pos[0],
             exit_col=exit_pos[1],
-            apply_42=True
+            seed=seed,
+            apply_42=True,
         )
     except ValueError as exc:
         print(f"Generation error: {exc}")
