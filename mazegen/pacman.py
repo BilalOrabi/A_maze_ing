@@ -218,10 +218,13 @@ class PacmanModifier:
                         (current, neighbor, direction)
                     )
 
-        loops_to_add = min(20, len(candidates))
-        for current, neighbor, direction in candidates[
-            :loops_to_add:3
-        ]:
+        loops_to_add = min(23, len(candidates))
+        if loops_to_add == 0:
+            return
+
+        for i in range(loops_to_add):
+            index = i * len(candidates) // loops_to_add
+            current, neighbor, direction = candidates[index]
             grid.remove_wall_between(
                 current,
                 neighbor,
