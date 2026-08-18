@@ -20,7 +20,7 @@ class InteractiveMenu:
         grid: Grid,
         entry: tuple[int, int],
         exit_pos: tuple[int, int],
-        perfect: bool
+        perfect: bool = False
     ) -> None:
         self.grid = grid
         self.entry = entry
