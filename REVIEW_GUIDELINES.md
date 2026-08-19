@@ -23,11 +23,11 @@
   - Implement `BFSSolver` strategy to calculate the shortest path.
   - Generate cardinal path string (`N`, `E`, `S`, `W`) for PDF output file compliance.
 
-- [ ] **Milestone 5: Game Modes & '42' Pattern Masking**
+- [x] **Milestone 5: Game Modes & '42' Pattern Masking**
   - Implement '42' pattern mask generator for grids large enough to contain it.
   - Implement `PERFECT=False` algorithm adjustment (carving extra passages for Pac-Man loops, open corners/center, rare dead-ends).
 
-- [ ] **Milestone 6: Packaging, Licensing & Evaluation Defense Prep**
+- [x] **Milestone 6: Packaging, Licensing & Evaluation Defense Prep**
   - Create root `LICENSE.md` and Makefile (`install`, `run`, `debug`, `clean`, `lint`).
   - Build pip-installable wheel package `mazegen-*.whl` at repository root using `poetry build`.
   - Finalize comprehensive `README.md` meeting all subject requirements.

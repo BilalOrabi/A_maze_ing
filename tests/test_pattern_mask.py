@@ -8,11 +8,11 @@ class TestPatternMask:
     """Tests for the 42 pattern mask."""
 
     def test_can_fit_42_when_grid_is_large_enough(self) -> None:
-        """42 should fit when the grid is at least the mask dimensions."""
+        """42 should fit when grid keeps the extra right-side clearance."""
         mask_height = len(PatternMask.MASK_42)
         mask_width = len(PatternMask.MASK_42[0])
 
-        grid = Grid(mask_width, mask_height)
+        grid = Grid(mask_width + 1, mask_height)
 
         assert PatternMask.can_fit_42(grid) is True
 
@@ -21,7 +21,7 @@ class TestPatternMask:
         mask_height = len(PatternMask.MASK_42)
         mask_width = len(PatternMask.MASK_42[0])
 
-        grid = Grid(mask_width - 1, mask_height)
+        grid = Grid(mask_width, mask_height)
 
         assert PatternMask.can_fit_42(grid) is False
 
@@ -30,7 +30,7 @@ class TestPatternMask:
         mask_height = len(PatternMask.MASK_42)
         mask_width = len(PatternMask.MASK_42[0])
 
-        grid = Grid(mask_width, mask_height)
+        grid = Grid(mask_width + 1, mask_height)
 
         result = PatternMask.apply_42_mask(grid)
 
@@ -52,7 +52,7 @@ class TestPatternMask:
         mask_height = len(PatternMask.MASK_42)
         mask_width = len(PatternMask.MASK_42[0])
 
-        grid = Grid(mask_width - 1, mask_height)
+        grid = Grid(mask_width, mask_height)
 
         result = PatternMask.apply_42_mask(grid)
 

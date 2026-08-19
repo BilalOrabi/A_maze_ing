@@ -184,3 +184,29 @@ def test_generator_rejects_reserved_entry() -> None:
             start_col=0,
             apply_42=False,
         )
+
+
+def test_generator_omits_42_and_prints_error_when_grid_too_small(
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    """Exact 7x5 grid should skip 42 mask under policy-2 clearance."""
+    grid = Grid(width=7, height=5)
+    generator = MazeGenerator()
+
+    generator.generate(
+        grid,
+        start_row=0,
+        start_col=0,
+        apply_42=True,
+    )
+
+    captured = capsys.readouterr()
+    assert "too small (or too narrow) for the 42 pattern" in captured.out
+
+    reserved_cells = [
+        cell
+        for row in grid.matrix
+        for cell in row
+        if cell.is_reserved
+    ]
+    assert reserved_cells == []

@@ -10,7 +10,7 @@ FLAKE8      := poetry run flake8 --count
 MAIN_SCRIPT := a_maze_ing.py
 CONFIG_FILE := config.txt
 
-.PHONY: all install run debug clean lint build help
+.PHONY: all install run test debug clean lint build help
 
 all: install lint test build
 
@@ -27,9 +27,19 @@ run:
 		$(PYTHON) $(MAIN_SCRIPT); \
 	fi
 
-debug:
+## Run unit tests and coverage analysis
+test:
 	@echo "==> Running pytest with detailed coverage..."
 	$(PYTEST) -v --cov=mazegen --cov=app --cov-report=term-missing
+
+## Run main script in debug mode using pdb (As required by subject page 7)
+debug:
+	@echo "==> Running main script in debug mode (pdb)..."
+	@if [ -f $(CONFIG_FILE) ]; then \
+		$(PYTHON) -m pdb $(MAIN_SCRIPT) $(CONFIG_FILE); \
+	else \
+		$(PYTHON) -m pdb $(MAIN_SCRIPT); \
+	fi
 
 clean:
 	@echo "==> Cleaning cache and build artifacts..."
@@ -61,7 +71,8 @@ help:
 	@echo "Targets:"
 	@echo "  install   Install dependencies via Poetry"
 	@echo "  run       Execute main application (a_maze_ing.py)"
-	@echo "  debug     Run pytest with coverage analysis"
+	@echo "  test      Run unit tests with pytest coverage analysis"
+	@echo "  debug     Run a_maze_ing.py with pdb interactive debugger"
 	@echo "  lint      Run MyPy and Flake8 code quality checks"
 	@echo "  build     Build wheel (.whl) package using Poetry"
 	@echo "  clean     Remove temporary files, caches, and build folders"

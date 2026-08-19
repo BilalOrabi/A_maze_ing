@@ -70,7 +70,10 @@ class MazeGenerator(BaseGenerator):
 
         # 1. Handle mask logic if requested
         if apply_42 and not PatternMask.apply_42_mask(grid):
-            print("Error: maze is too small for the 42 pattern.")
+            print(
+                "Error: maze is too small (or too narrow) for the 42 "
+                "pattern."
+            )
 
         # 2. Grab and validate the initial starting cell
         start_cell: Optional[Cell] = grid.get_cell(
@@ -92,7 +95,7 @@ class MazeGenerator(BaseGenerator):
 
             if exit_cell is None:
                 raise ValueError(
-                    f"exit cell ({exit_row}, {exit_col}) is out of grid bounds."
+                    f"exit cell ({exit_row}, {exit_col}) is out of grid bounds"
                 )
 
             if (start_row, start_col) == (exit_row, exit_col):
