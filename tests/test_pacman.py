@@ -319,6 +319,7 @@ def test_add_loops_skips_reserved_neighbor() -> None:
 
     PacmanModifier.add_loops(grid)
 
+
 def test_count_open_neighbors_zero() -> None:
     """A fully enclosed cell has zero open neighbors."""
     grid = Grid(5, 5)

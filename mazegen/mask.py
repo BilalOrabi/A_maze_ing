@@ -29,7 +29,11 @@ class PatternMask:
     @classmethod
     def can_fit_42(cls, grid: Grid) -> bool:
         """
-        Check whether the "42" pattern fits inside the grid.
+        Check whether the "42" pattern can be placed safely.
+
+        Besides geometric fit, keep one extra column of clearance so
+        corridor cells near the "2" do not become landlocked in the
+        minimum 7x5 layout.
 
         :param grid: Grid to check.
         :return: True if the pattern fits, otherwise False.
@@ -39,7 +43,7 @@ class PatternMask:
 
         return (
             grid.height >= mask_height
-            and grid.width >= mask_width
+            and grid.width >= (mask_width + 1)
         )
 
     @classmethod
