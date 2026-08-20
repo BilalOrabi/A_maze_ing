@@ -18,7 +18,7 @@ def test_parse_valid_config(tmp_path: Path) -> None:
                 "WIDTH=20",
                 "HEIGHT=15",
                 "ENTRY=0,0",
-                "EXIT=19,14",
+                "EXIT=14,19",
                 "OUTPUT_FILE=maze.txt",
                 "PERFECT=True",
             ]
@@ -31,7 +31,7 @@ def test_parse_valid_config(tmp_path: Path) -> None:
     assert config["WIDTH"] == 20
     assert config["HEIGHT"] == 15
     assert config["ENTRY"] == (0, 0)
-    assert config["EXIT"] == (19, 14)
+    assert config["EXIT"] == (14, 19)
     assert config["OUTPUT_FILE"] == "maze.txt"
     assert config["PERFECT"] is True
 

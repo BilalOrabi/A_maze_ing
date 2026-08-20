@@ -36,13 +36,12 @@ def main() -> None:
     grid = Grid(width=width, height=height)
     seed: int | None = config.get("SEED")
 
-    # 3. Extract coordinates (Config provides (x, y) -> Convert to (row, col))
-    raw_entry = config.get("ENTRY", (0, 0))
-    raw_exit = config.get("EXIT", (width - 1, height - 1))
-
-    # Convert (x, y) to (row, col)
-    entry: tuple[int, int] = (raw_entry[1], raw_entry[0])
-    exit_pos: tuple[int, int] = (raw_exit[1], raw_exit[0])
+    # 3. Extract coordinates in the application-wide (row, col) order.
+    entry: tuple[int, int] = config.get("ENTRY", (0, 0))
+    exit_pos: tuple[int, int] = config.get(
+        "EXIT",
+        (height - 1, width - 1),
+    )
 
     # 4. Generate maze initial layout using Strategy Pattern
     generator = MazeGenerator()
@@ -91,7 +90,7 @@ def main() -> None:
     solver = BFSSolver()
     final_path = solver.solve(grid, entry, exit_pos)
     path_str = BFSSolver.path_to_directions(final_path)
-    MazeWriter.write(grid, output_path, raw_entry, raw_exit, path_str)
+    MazeWriter.write(grid, output_path, entry, exit_pos, path_str)
 
 
 if __name__ == "__main__":

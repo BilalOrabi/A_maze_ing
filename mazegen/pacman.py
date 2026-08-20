@@ -219,7 +219,7 @@ class PacmanModifier:
                     )
 
         loops_to_add = round(
-            len(candidates) * 0.30
+            len(candidates) * 0.35
         )
         loops_to_add = max(2, loops_to_add)
         loops_to_add = min(loops_to_add, len(candidates))
