@@ -80,6 +80,27 @@ def test_generator_full_maze_traversal_and_spanning_tree() -> None:
     expected_carved_cell_walls = 2 * (total_cells - 1)
     assert total_carved_walls == expected_carved_cell_walls
 
+
+def test_generator_seed_is_reproducible() -> None:
+    """The same seed should produce the same maze layout."""
+    first_grid = Grid(width=6, height=6)
+    second_grid = Grid(width=6, height=6)
+    generator = MazeGenerator()
+
+    generator.generate(first_grid, seed=42, apply_42=False)
+    generator.generate(second_grid, seed=42, apply_42=False)
+
+    first_layout = [
+        [first_grid.get_cell(row, col).walls for col in range(6)]
+        for row in range(6)
+    ]
+    second_layout = [
+        [second_grid.get_cell(row, col).walls for col in range(6)]
+        for row in range(6)
+    ]
+
+    assert first_layout == second_layout
+
 def test_generator_invalid_exit_coordinates() -> None:
     """Generator should reject an exit outside the grid."""
     grid = Grid(width=5, height=5)

@@ -218,7 +218,11 @@ class PacmanModifier:
                         (current, neighbor, direction)
                     )
 
-        loops_to_add = min(23, len(candidates))
+        loops_to_add = round(
+            len(candidates) * 0.35
+        )
+        loops_to_add = max(2, loops_to_add)
+        loops_to_add = min(loops_to_add, len(candidates))
         if loops_to_add == 0:
             return
 
