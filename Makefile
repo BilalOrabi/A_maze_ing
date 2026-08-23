@@ -30,9 +30,13 @@ run:
 ## Run unit tests and coverage analysis
 test:
 	@echo "==> Running pytest with detailed coverage..."
-	$(PYTEST) -v --cov=mazegen --cov=app --cov-report=term-missing
+	@if [ -d tests ]; then \
+		$(PYTEST) -v --cov=mazegen --cov=app --cov-report=term-missing; \
+	else \
+		echo "==> No tests folder found; skipping pytest."; \
+	fi
 
-## Run main script in debug mode using pdb (As required by subject page 7)
+## Run main script in debug mode using pdb
 debug:
 	@echo "==> Running main script in debug mode (pdb)..."
 	@if [ -f $(CONFIG_FILE) ]; then \
