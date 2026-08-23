@@ -8,6 +8,7 @@ inputs to manage maze states and cycle color palettes.
 
 import os
 import subprocess
+from typing import Optional
 from app.renderer import TerminalRenderer
 from mazegen import Grid, MazeGenerator, BFSSolver, PacmanModifier
 
@@ -20,13 +21,15 @@ class InteractiveMenu:
         grid: Grid,
         entry: tuple[int, int],
         exit_pos: tuple[int, int],
-        perfect: bool = False
+        perfect: bool = False,
+        seed: Optional[int] = None
     ) -> None:
         self.grid = grid
         self.entry = entry
         self.exit_pos = exit_pos
         self.renderer = TerminalRenderer()
         self.perfect = perfect
+        self.seed = seed
 
         # Interactive States
         self.show_path = True
@@ -111,6 +114,10 @@ class InteractiveMenu:
 
             match choice:
                 case "1":
+
+                    if self.seed is not None:
+                        self.seed += 1
+
                     self.grid.reset_cells()
                     generator.generate(
                         self.grid,
@@ -118,7 +125,8 @@ class InteractiveMenu:
                         start_col=self.entry[1],
                         exit_row=self.exit_pos[0],
                         exit_col=self.exit_pos[1],
-                        apply_42=True
+                        apply_42=True,
+                        seed=self.seed
                     )
                     if not self.perfect:
                         PacmanModifier.open_corners(self.grid)

@@ -82,6 +82,7 @@ def main() -> None:
         entry,
         exit_pos,
         perfect,
+        seed=seed
         )
     interactive_menu.run()
 
