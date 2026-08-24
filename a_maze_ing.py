@@ -9,7 +9,7 @@ A-Maze-ing Main Application Controller.
 
 import sys
 from app import ConfigParser, MazeWriter
-from app.menu import InteractiveMenu
+from app import InteractiveMenu
 from mazegen import Grid, MazeGenerator, BFSSolver
 from mazegen import PacmanModifier
 
