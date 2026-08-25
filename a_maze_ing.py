@@ -18,7 +18,7 @@ def main() -> None:
     """Main application controller entry point."""
     if len(sys.argv) != 2:
         print("Usage: python3 a_maze_ing.py <config_file>")
-        return
+        sys.exit(1)
 
     config_file = sys.argv[1]
 
