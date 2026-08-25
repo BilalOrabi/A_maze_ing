@@ -87,8 +87,9 @@ class MazeGenerator(BaseGenerator):
             )
 
         # 3. Validate the exit only when it is provided
+        exit_cell: Optional[Cell] = None
         if exit_row is not None and exit_col is not None:
-            exit_cell: Optional[Cell] = grid.get_cell(
+            exit_cell = grid.get_cell(
                 exit_row,
                 exit_col,
             )
@@ -108,10 +109,16 @@ class MazeGenerator(BaseGenerator):
                 "exit_row and exit_col must be provided together."
             )
 
-        # 4. Handle conflict if ENTRY lands on the solid "42" pattern
+        # 4. Handle conflict if ENTRY & EXIT lands on the solid "42" pattern
         if start_cell.is_reserved:
             raise ValueError(
                 "Configuration Error: ENTRY coordinate cannot be inside "
+                "the '42' pattern mask."
+            )
+
+        if exit_cell is not None and exit_cell.is_reserved:
+            raise ValueError(
+                "Configuration Error:  EXIT coordinate cannot be inside "
                 "the '42' pattern mask."
             )
 

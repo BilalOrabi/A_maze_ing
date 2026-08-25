@@ -60,15 +60,6 @@ def main() -> None:
         print(f"Generation error: {exc}")
         return
 
-    # 5. Check if the mask swallowed the exit post-mask allocation
-    exit_cell = grid.get_cell(exit_pos[0], exit_pos[1])
-    if exit_cell and exit_cell.is_reserved:
-        print(
-            "Error: The EXIT coordinate cannot be inside the '42' pattern "
-            "mask."
-        )
-        return
-
     # Apply Pac-Man modifications for non-perfect mazes
     if not perfect:
         PacmanModifier.open_corners(grid)

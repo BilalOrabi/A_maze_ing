@@ -207,6 +207,29 @@ def test_generator_rejects_reserved_entry() -> None:
         )
 
 
+def test_generator_rejects_reserved_exit() -> None:
+    """Generator should reject an exit inside the 42 pattern."""
+    grid = Grid(width=5, height=5)
+    generator = MazeGenerator()
+
+    cell = grid.get_cell(1, 1)
+    assert cell is not None
+    cell.is_reserved = True
+
+    with pytest.raises(
+        ValueError,
+        match="EXIT coordinate cannot be inside",
+    ):
+        generator.generate(
+            grid,
+            start_row=0,
+            start_col=0,
+            exit_row=1,
+            exit_col=1,
+            apply_42=False,
+        )
+
+
 def test_generator_omits_42_and_prints_error_when_grid_too_small(
     capsys: pytest.CaptureFixture[str],
 ) -> None:

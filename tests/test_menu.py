@@ -127,3 +127,19 @@ def test_run_loop_enable_color_fallback(setup_menu: tuple[InteractiveMenu, Grid]
 
         assert menu.color_enabled is True
         assert menu.theme_index == 0
+
+
+def test_run_regeneration_increments_seed(
+    setup_menu: tuple[InteractiveMenu, Grid],
+) -> None:
+    """Regenerating a seeded maze should advance its seed."""
+    menu, _ = setup_menu
+    menu.seed = 42
+
+    with patch.object(menu, "_get_choice", side_effect=["1", "4"]), \
+         patch.object(menu, "_clear_screen"), \
+         patch("mazegen.BFSSolver.solve", return_value=[]), \
+         patch("mazegen.MazeGenerator.generate"):
+        menu.run()
+
+    assert menu.seed == 43
