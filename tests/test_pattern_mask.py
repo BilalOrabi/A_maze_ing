@@ -12,7 +12,7 @@ class TestPatternMask:
         mask_height = len(PatternMask.MASK_42)
         mask_width = len(PatternMask.MASK_42[0])
 
-        grid = Grid(mask_width + 1, mask_height)
+        grid = Grid(PatternMask.MIN_WIDTH, PatternMask.MIN_HEIGHT)
 
         assert PatternMask.can_fit_42(grid) is True
 
@@ -30,19 +30,25 @@ class TestPatternMask:
         mask_height = len(PatternMask.MASK_42)
         mask_width = len(PatternMask.MASK_42[0])
 
-        grid = Grid(mask_width + 1, mask_height)
+        grid = Grid(PatternMask.MIN_WIDTH, PatternMask.MIN_HEIGHT)
 
         result = PatternMask.apply_42_mask(grid)
 
         assert result is True
 
-        for row in range(mask_height):
-            for col in range(mask_width):
-                cell = grid.get_cell(row, col)
+        start_row = (grid.height - mask_height) // 2
+        start_col = (grid.width - mask_width) // 2
+
+        for mask_row in range(mask_height):
+            for mask_col in range(mask_width):
+                cell = grid.get_cell(
+                    start_row + mask_row,
+                    start_col + mask_col,
+                )
 
                 assert cell is not None
 
-                if PatternMask.MASK_42[row][col] == 1:
+                if PatternMask.MASK_42[mask_row][mask_col] == 1:
                     assert cell.is_reserved is True
                 else:
                     assert cell.is_reserved is False

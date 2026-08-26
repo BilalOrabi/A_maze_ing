@@ -218,6 +218,28 @@ def test_invalid_perfect_raises_error(tmp_path: Path) -> None:
         ConfigParser.parse(str(config_file))
 
 
+def test_non_perfect_2x2_maze_raises_route_error(tmp_path: Path) -> None:
+    """A 2x2 non-perfect maze cannot provide two independent routes."""
+    config_file = tmp_path / "config.txt"
+
+    config_file.write_text(
+        "\n".join(
+            [
+                "WIDTH=2",
+                "HEIGHT=2",
+                "ENTRY=0,0",
+                "EXIT=0,1",
+                "OUTPUT_FILE=maze.txt",
+                "PERFECT=False",
+            ]
+        ),
+        encoding="utf-8",
+    )
+
+    with pytest.raises(ValueError, match="requires at least 2 independent routes"):
+        ConfigParser.parse(str(config_file))
+
+
 def test_invalid_seed_raises_error(tmp_path: Path) -> None:
     """SEED must be an integer."""
     config_file = tmp_path / "config.txt"

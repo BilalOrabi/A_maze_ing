@@ -26,6 +26,33 @@ class ConfigParser:
         """
         config: dict[str, Any] = {}
 
+        def _parse_dimension(value: str, line: str) -> int:
+            dimension = int(value)
+            if dimension <= 0:
+                raise ValueError(f"Invalid configuration line: {line}")
+            return dimension
+
+        def _parse_coordinates(key: str, value: str) -> tuple[int, int]:
+            coords = [int(x) for x in value.split(",")]
+            if len(coords) != 2:
+                raise ValueError(
+                    f"Invalid coordinate format for {key}: {value}"
+                )
+            return coords[0], coords[1]
+
+        def _parse_perfect(value: str, line: str) -> bool:
+            if value.lower() == "true":
+                return True
+            if value.lower() == "false":
+                return False
+            raise ValueError(f"Invalid configuration line: {line}")
+
+        def _parse_seed(value: str) -> int:
+            try:
+                return int(value)
+            except ValueError:
+                raise ValueError(f"Invalid SEED value: {value}")
+
         with open(file_path, "r", encoding="utf-8") as file:
             for line in file:
                 line = line.strip()
@@ -39,31 +66,13 @@ class ConfigParser:
                 value = value.strip()
 
                 if key in ("WIDTH", "HEIGHT"):
-                    if int(value) <= 0:
-                        raise ValueError(f"Invalid configuration line: {line}")
-                    else:
-                        config[key] = int(value)
+                    config[key] = _parse_dimension(value, line)
                 elif key in ("ENTRY", "EXIT"):
-                    coords = [int(x) for x in value.split(",")]
-                    if len(coords) != 2:
-                        raise ValueError(
-                            f"Invalid coordinate format for {key}: {value}"
-                        )
-                    config[key] = (coords[0], coords[1])
+                    config[key] = _parse_coordinates(key, value)
                 elif key == "PERFECT":
-                    if value.lower() == "true":
-                        config[key] = True
-                    elif value.lower() == "false":
-                        config[key] = False
-                    else:
-                        raise ValueError(f"Invalid configuration line: {line}")
+                    config[key] = _parse_perfect(value, line)
                 elif key == "SEED":
-                    try:
-                        config[key] = int(value)
-                    except ValueError:
-                        raise ValueError(
-                            f"Invalid SEED value: {value}"
-                        )
+                    config[key] = _parse_seed(value)
                 else:
                     config[key] = value
 
@@ -80,6 +89,17 @@ class ConfigParser:
         if missing:
             raise ValueError(
                 f"Missing configuration keys: {', '.join(sorted(missing))}"
+            )
+
+        if (
+            config["WIDTH"] == 2
+            and config["HEIGHT"] == 2
+            and config["PERFECT"] is False
+        ):
+            raise ValueError(
+                "Cannot build a Pac-Man maze with dimensions 2x2: "
+                "it would have only 1 independent route, but a Pac-Man "
+                "maze requires at least 2 independent routes."
             )
 
         return config

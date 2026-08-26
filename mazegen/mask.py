@@ -42,12 +42,9 @@ class PatternMask:
         :param grid: Grid to check.
         :return: True if the pattern fits, otherwise False.
         """
-        mask_height = len(cls.MASK_42)
-        mask_width = len(cls.MASK_42[0])
-
         return (
-            grid.height >= mask_height
-            and grid.width >= (mask_width + 1)
+            grid.height >= cls.MIN_HEIGHT
+            and grid.width >= cls.MIN_WIDTH
         )
 
     @classmethod
