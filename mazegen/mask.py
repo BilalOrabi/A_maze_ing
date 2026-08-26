@@ -26,6 +26,10 @@ class PatternMask:
         [0, 0, 1, 0, 1, 1, 1],
     ]
 
+    # Minimum required dimensions for applying the mask
+    MIN_HEIGHT: int = 7
+    MIN_WIDTH: int = 9
+
     @classmethod
     def can_fit_42(cls, grid: Grid) -> bool:
         """
@@ -33,7 +37,7 @@ class PatternMask:
 
         Besides geometric fit, keep one extra column of clearance so
         corridor cells near the "2" do not become landlocked in the
-        minimum 7x5 layout.
+        minimum 7x9 layout.
 
         :param grid: Grid to check.
         :return: True if the pattern fits, otherwise False.
