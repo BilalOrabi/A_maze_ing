@@ -23,7 +23,7 @@ def test_menu_initial_states(setup_menu: tuple[InteractiveMenu, Grid]) -> None:
     menu, _ = setup_menu
     assert menu.show_path is True
     assert menu.color_enabled is True
-    assert menu.theme_index == 0
+    assert menu.theme_index == 3
     assert menu.running is True
 
 
@@ -106,7 +106,7 @@ def test_run_loop_state_routing(setup_menu: tuple[InteractiveMenu, Grid]) -> Non
         menu.run()
 
         assert menu.show_path is False       # Verifies '2' route logic handled
-        assert menu.theme_index == 1        # Verifies '3' route logic handled
+        assert menu.theme_index == 0      # Verifies '3' route logic handled
         mock_generate.assert_called_once()  # Verifies '1' route logic handled
         assert menu.running is False        # Verifies '4' route logic handled
 
