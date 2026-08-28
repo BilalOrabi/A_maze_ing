@@ -35,7 +35,7 @@ class InteractiveMenu:
         self.show_path = True
         self.color_enabled = True
         # 0: Green, 1: Cyberpunk, 2: Deep Ocean, 3: Sunset
-        self.theme_index = 0
+        self.theme_index = 3
         self.running = True
 
     def _clear_screen(self) -> None:
