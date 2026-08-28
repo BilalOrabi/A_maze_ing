@@ -29,8 +29,8 @@ The application accepts configuration files formatted with one `KEY=VALUE` pair 
 
 | Key           | Type    | Description                                                 | Default               |
 | :------------ | :------ | :---------------------------------------------------------- | :-------------------- |
-| `WIDTH`       | `int`   | Grid width in cells ($\ge 3$)                               | Required              |
-| `HEIGHT`      | `int`   | Grid height in cells ($\ge 3$)                              | Required              |
+| `WIDTH`       | `int`   | Grid width in cells                                         | Required              |
+| `HEIGHT`      | `int`   | Grid height in cells                                        | Required              |
 | `ENTRY`       | `tuple` | Starting coordinates `(row, col)`                           | `(0, 0)`              |
 | `EXIT`        | `tuple` | Ending coordinates `(row, col)`                             | `(height-1, width-1)` |
 | `OUTPUT_FILE` | `str`   | Target output path for generated maze solution              | `output_maze.txt`     |
@@ -130,7 +130,7 @@ This separation keeps the maze logic independent from input handling and present
 
 We utilized the **Strategy Pattern** via Python Abstract Base Classes (`abc.ABC`) to make algorithms interchangeable:
 
-- **Generators:** A `BaseGenerator` interface defines how a generator should behave. Our `DFSMazeGenerator` implements this strategy. If a future developer wants to add Kruskal's or Prim's algorithm, they simply create a new strategy class without altering the core controller.
+- **Generators:** A `BaseGenerator` interface defines how a generator should behave. Our `MazeGenerator` implements DFS strategy. If a future developer wants to add Kruskal's or Prim's algorithm, they simply create a new strategy class without altering the core controller.
 - **Solvers:** A `BaseSolver` interface handles pathfinding. We implemented the `BFSSolver` strategy, but this design allows for seamless integration of an `AStarSolver` or `DijkstraSolver` in the future.
 
 ---
@@ -139,7 +139,7 @@ We utilized the **Strategy Pattern** via Python Abstract Base Classes (`abc.ABC`
 
 The project is structured into two distinct packages:
 
-- **`mazegen/` (Reusable Library Core):** Contains pure domain logic independent of any CLI or terminal display (`Grid`, `Cell`, `BaseGenerator`, `DFSMazeGenerator`, `BaseSolver`, `BFSSolver`).
+- **`mazegen/` (Reusable Library Core):** Contains pure domain logic independent of any CLI or terminal display (`Grid`, `Cell`, `BaseGenerator`, `MazeGenerator`, `BaseSolver`, `BFSSolver`).
 - **`app/` (Application Layer):** Handles CLI configuration parsing, terminal rendering, and file output formatting.
 
 ### How to Reuse `mazegen` in Future Projects
@@ -153,13 +153,13 @@ pip install dist/mazegen-1.0.0-py3-none-any.whl
 #### Code Integration Example:
 
 ```python
-from mazegen import Grid, DFSMazeGenerator, BFSSolver
+from mazegen import Grid, MazeGenerator, BFSSolver
 
 # 1. Initialize Grid
 grid = Grid(width=15, height=10)
 
 # 2. Generate Maze
-generator = DFSMazeGenerator()
+generator = MazeGenerator()
 generator.generate(grid, start_row=0, start_col=0)
 
 # 3. Solve Path
@@ -177,7 +177,7 @@ path = solver.solve(grid, entry=(0, 0), exit_pos=(9, 14))
   - **Designed the modular repository structure** and project architecture, Poetry dependency configuration, package layout.
   - **Core grid models** (`Grid`, `Cell`, bitmask direction utilities).
   - **Pathfinding engine** (`BaseSolver`, `BFSSolver` strategy, cardinal string generation).
-  - **Maze generation engine** (`BaseGenerator`, `DFSMazeGenerator` strategy, recursive backtracking logic).
+  - **Maze generation engine** (`BaseGenerator`, `MazeGenerator` strategy, recursive backtracking logic).
   - **Packaging**, `pyproject.toml` metadata, `LICENSE.md`, `Makefile` build targets, and project documentation.
 
 - **`hqasqas` (Hamza Nabil):**
